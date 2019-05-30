@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Flask Test</title>
+</head>
+<body style="text-align: center;">
+	<div style="margin-top: 5%;">
+		<h2>This is {% block name %}{% endblock %}.html!</h2>
+		<a href="/">Home</a>
+		<a href="/channel">Channel Lists</a>
+		<a href="/message">Message View</a>
+		<div>
+			<h2>Hello {% block username %}{% endblock %}!</h2>
+		</div>
+	</div>
+	<div style="border: black solid 2px;width: 70%;height: 300px;margin: 0 15% 0;">
+		{% block content %}
+
+		{% endblock %}
+	</div>
+	<div>
+		<form action="/del_cookie" method="POST" style="">
+			<button onclick="submit">
+				Delete Cookie
+			</button>
+		</form>		
+		<script>
+			document.write("The cookie :");
+			document.write(document.cookie);
+		</script>
+	</div>
+	
+	
+</body>
+</html>
