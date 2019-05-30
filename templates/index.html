@@ -1,0 +1,32 @@
+{% extends "temp.html" %}
+{% block name %}Index{% endblock %}
+{% block username %} <b> {{username}}</b>{% endblock %}
+{% block content %}
+	{% if not msg %}
+		<form action="/" method="POST" style="margin-top: 5%">
+			<div>
+				Your Name:<input type="text" name="name">	
+			</div>
+			<br>
+			<button onclick="submit">
+				Submit
+			</button>
+		</form>		
+		<form action="/" method="POST" style="margin-top: 5%">
+			<div>
+				Channel Create:<input type="text" name="cname">	
+			</div>
+			<br>
+			<button onclick="submit">
+				Submit
+			</button>
+		</form>		
+	{% else %}
+		<h1>
+			{{msg}}
+		</h1>
+		<h2>
+			Or you can go back with enter 'F5'.
+		</h2>
+	{% endif %}
+{% endblock %}
