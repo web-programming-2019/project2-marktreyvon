@@ -2,5 +2,63 @@
 {% block name %}Message View{% endblock %}
 {% block username %} <b> {{username}}</b>{% endblock %}
 {% block content %}
-	
+	<table border="1" style="width: 100%;">
+		<tr>
+			<th>Channel Id</th>
+			<th>Creator Name</th>
+			<th>Channel Name</th>
+			<th>Comments Number</th>
+		</tr>
+		<tr>
+			<td>{{current_chnl.id}}</td>
+			<td>{{current_chnl.creator}}</td>
+			<td>{{current_chnl.name}}</td>
+			<td>{{current_chnl.len}}</td>
+		</tr>
+	</table>
+	<div style="width: 70%;height: 300px;overflow: auto;float: left;">
+		<table style="width: 100%;">
+			<tr style="height: 10px">
+				<th style="width: 40%;"></th>
+				<th style="width: 20%;"></th>
+				<th style="width: 40%;"></th>
+			</tr>
+			{% for i in msg_lis %}
+				<tr>
+					{% if i.user == username %}
+					<td></td>
+					<td></td>
+					<td>
+						<div>
+							<div>{{i.time}}——<b>{{i.user}}</b></div>
+							<div style="border:1px solid #a9c9e2;background:#e8f5fe;border-radius: 15px;">{{i.info}}</div>
+						</div>
+					</td>
+					{% else %}
+					<td>
+						<div>
+							<div><b>{{i.user}}</b>——{{i.time}}</div>
+							<div style="border:1px solid #a9c9e2;background:#e8f5fe;border-radius: 15px;">{{i.info}}</div>
+						</div>
+						</td>
+					<td></td>
+					<td></td>
+					{% endif %}
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div style="width: 1px;height: 300px;float: left;border-left: 1px solid black;">
+		
+	</div>
+	<div style="width: 245px;height: 230px;float: left;margin-top: 70px;">
+		<form action="/add_comment" method="POST">
+			<h4>Send Message</h4>
+			<!-- <div>Info:<input type="text" value="Write Something..."></div> -->
+			<textarea rows="5" cols="30" name="info">
+				Please Write Something...
+			</textarea>
+			<input type="submit" value="Send">
+		</form>
+	</div>
 {% endblock %}

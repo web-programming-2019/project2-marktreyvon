@@ -34,25 +34,47 @@ def index():
 def channel():
     ck = request.cookies.get('is_set')
     if not ck or ck == '0':
-        return render_template('index.html', msg='Cannot enter chnl, please write down your name!')
+        return render_template('index.html', msg='Cannot enter channel lists, please write down your name!')
     else:
         name = request.cookies.get('uname')
         chnl_lis = load_chnl()
         return render_template('channel.html',username=name,lis=chnl_lis)
 
-@app.route("/message")
-def message():
-
-    name = request.cookies.get('uname')
-    if name:
-        return render_template('message.html', username=name)
+@app.route("/message/<int:chnl_id>")
+def message(chnl_id):
+    ck = request.cookies.get('is_set')
+    if not ck or ck == '0':
+        return render_template('index.html', msg='Cannot enter chnl, please write down your name!')
     else:
-        return render_template('message.html')
+        msg_lis = load_chnl_msg(chnl_id)
+        chnl_lis = load_chnl()
+        current_chnl = None
+        for i in range(len(chnl_lis)):
+            if str(chnl_lis[i].id) == str(chnl_id):
+                print(1)
+                current_chnl = chnl_lis[i]
+        name = request.cookies.get('uname')
+        if name:
+            return render_template('message.html', username=name,current_chnl=current_chnl,msg_lis=msg_lis)
+        else:
+            return render_template('message.html',current_chnl=current_chnl,msg_lis=msg_lis)
+
+@app.route("/add_comment",methods=['POST'])
+def add_comment():
+    s = "You have send message successfully!"
+    chnl_id = request.referrer[-9:]
+    info = request.form.get('info')
+    uname = request.cookies.get('uname')
+    print(chnl_id,info,uname)
+    with open('static/chnl_msg_box_'+chnl_id+'.txt','a')as f:
+        f.write(uname+'////'+t.strftime("%Y-%m-%d-%H:%M:%S",t.localtime())+'////'+info+'\n')
+    resp = make_response('<script>alert("'+s+'");location.href="/"</script>')
+    return resp
 
 @app.route("/del_cookie",methods=['POST'])
 def del_cookie():
     s = "You have delete the cookie!"
-    resp = make_response(s)
+    resp = make_response('<script>alert("'+s+'");location.href="/"</script>')
     resp.set_cookie('is_set','0')
     resp.delete_cookie('uname')
     resp.delete_cookie('chnl_id')

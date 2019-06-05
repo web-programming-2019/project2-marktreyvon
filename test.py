@@ -16,3 +16,10 @@ import datetime,time as t
 # help(t.time)
 
 print(t.strftime("%Y-%m-%d-%H:%M:%S",t.localtime()))
+
+def a():
+    print(1)
+    return 123,4
+q,w = a()
+print(q,w)
+
