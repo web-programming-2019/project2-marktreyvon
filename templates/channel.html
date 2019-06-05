@@ -25,6 +25,7 @@
 			<th>Creator Name</th>
 			<th>Channel Name</th>
 			<th>Comments Number</th>
+			<th>Function</th>
 		</tr>
 		{% for i in lis %}
 			<tr>
@@ -32,6 +33,7 @@
 				<td>{{i.creator}}</td>
 				<td>{{i.name}}</td>
 				<td>{{i.len}}</td>
+				<td> <a href="./message/{{i.id}}">Enter</a></td>
 			</tr>
 		{% endfor %}
 	</table>

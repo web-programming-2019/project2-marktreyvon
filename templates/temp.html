@@ -5,16 +5,21 @@
 	<title>Flask Test</title>
 </head>
 <body style="text-align: center;">
-	<div style="margin-top: 5%;">
-		<h2>This is {% block name %}{% endblock %}.html!</h2>
+	<div style="">
+		<h2>This is {% block name %}{% endblock %}.html!
+			{% if chnl_num %}
+				&nbsp;&nbsp;&nbsp;&nbsp;Channel Number:
+				{{chnl_num}}
+			{% endif %}
+		</h2>
 		<a href="/">Home</a>
 		<a href="/channel">Channel Lists</a>
-		<a href="/message">Message View</a>
+		<!-- <a href="/message">Message View</a> -->
 		<div>
 			<h2>Hello {% block username %}{% endblock %}!</h2>
 		</div>
 	</div>
-	<div style="border: black solid 2px;width: 70%;height: 300px;margin: 0 15% 0;">
+	<div style="border: black solid 2px;width: 70%;height: 355px;margin: 0 15% 0;">
 		{% block content %}
 
 		{% endblock %}
