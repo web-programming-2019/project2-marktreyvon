@@ -17,6 +17,6 @@ Ver 2：2019-6-5 16:10:01
 删除cookie；
 
 简单示例：
-![](../blob/master/img/eg(1).png)
-![](../blob/master/img/eg(2).png)
-![](../blob/master/img/eg(3).png)
+![](https://github.com/marktreyvon/project2-marktreyvon/blob/master/img/eg(1).png)
+![](https://github.com/marktreyvon/project2-marktreyvon/blob/master/img/eg(2).png)
+![](https://github.com/marktreyvon/project2-marktreyvon/blob/master/img/eg(3).png)
