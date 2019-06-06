@@ -15,11 +15,16 @@ import datetime,time as t
 # print(t.localtime())
 # help(t.time)
 
-print(t.strftime("%Y-%m-%d-%H:%M:%S",t.localtime()))
+# print(t.strftime("%Y-%m-%d-%H:%M:%S",t.localtime()))
+#
+# def a():
+#     print(1)
+#     return 123,4
+# q,w = a()
+# print(q,w)
+#
+import json
 
-def a():
-    print(1)
-    return 123,4
-q,w = a()
-print(q,w)
-
+a = [['a'],['d']]
+print(a)
+print(json.dumps(a))

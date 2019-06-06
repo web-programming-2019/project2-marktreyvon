@@ -39,6 +39,17 @@ def load_chnl_msg(chnl_id):
         lis.append(msg(uname,ctime,comment))
     return lis
 
+def load_chnl_msg_lis(chnl_id):
+    lis = []
+    with open('static/chnl_msg_box_'+str(chnl_id)+'.txt','r')as f:
+        raw_str = f.read()
+    raw_str = raw_str.split('\n')
+    del raw_str[-1]
+    for i in raw_str:
+        uname,ctime,comment = i.split('////')
+        lis.append([uname,ctime,comment])
+    return lis
+
 def load_chnl():
     lis = []
     with open('static/chnl.txt','r')as f:
