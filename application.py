@@ -3,10 +3,21 @@ import os
 from flask import Flask,render_template,make_response,request
 from channel import *
 from flask_socketio import SocketIO, emit
+import json
 
 app = Flask(__name__)
 # app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
-# socketio = SocketIO(app)
+socketio = SocketIO(app)
+name_space = '/'
+@socketio.on('c',namespace=name_space)
+def fresh_msg(data):
+    # print(data)
+    chnl_id = data['chnl_id']
+    print(chnl_id)
+    msg_lis = load_chnl_msg_lis(chnl_id)
+    msg_lis = json.dumps(msg_lis)
+    socketio.sleep(5)
+    socketio.emit('server_comment_fresh',msg_lis,json=True)
 
 
 @app.route("/",methods=['GET','POST'])
@@ -51,11 +62,12 @@ def message(chnl_id):
         current_chnl = None
         for i in range(len(chnl_lis)):
             if str(chnl_lis[i].id) == str(chnl_id):
-                print(1)
                 current_chnl = chnl_lis[i]
         name = request.cookies.get('uname')
         if name:
-            return render_template('message.html', username=name,current_chnl=current_chnl,msg_lis=msg_lis)
+            resp = make_response(render_template('message.html', username=name,current_chnl=current_chnl,msg_lis=msg_lis))
+            resp.set_cookie('last_chnl',str(chnl_id))
+            return resp
         else:
             return render_template('message.html',current_chnl=current_chnl,msg_lis=msg_lis)
 
@@ -64,11 +76,16 @@ def add_comment():
     s = "You have send message successfully!"
     chnl_id = request.referrer[-9:]
     info = request.form.get('info')
+    last_chnl = request.cookies.get('last_chnl')
     uname = request.cookies.get('uname')
-    print(chnl_id,info,uname)
+    ctime = t.strftime("%Y-%m-%d-%H:%M:%S",t.localtime())
     with open('static/chnl_msg_box_'+chnl_id+'.txt','a')as f:
-        f.write(uname+'////'+t.strftime("%Y-%m-%d-%H:%M:%S",t.localtime())+'////'+info+'\n')
-    resp = make_response('<script>alert("'+s+'");location.href="/"</script>')
+        f.write(uname+'////'+ctime+'////'+info+'\n')
+    resp = make_response('<script>alert("'+s+'");location.href="/message/'+last_chnl+'"</script>')
+
+    emit('server_comment_fresh1', {'uname': uname, 'ctime': ctime, 'info': info},namespace=name_space,broadcast=True)
+    print(chnl_id,info,uname)
+
     return resp
 
 @app.route("/del_cookie",methods=['POST'])
@@ -80,4 +97,5 @@ def del_cookie():
     resp.delete_cookie('chnl_id')
     return resp
 
-
+if __name__ == '__main__':
+    socketio.run(app)
